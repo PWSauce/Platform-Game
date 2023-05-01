@@ -3,6 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include "resourceManager.h"
+#include "player.h"
 
 class Game
 {
@@ -19,6 +21,11 @@ protected:
 
 private:
     sf::RenderWindow window;
+    ResourceManager resources;
+    Player player;
+
+
+    bool running;
 };
 
 #endif // GAME_H

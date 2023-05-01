@@ -4,7 +4,10 @@
 #include <string>
 
 Game::Game(std::string name, unsigned width, unsigned height)
-    : window(sf::VideoMode{width, height}, name)
+    : window(sf::VideoMode{width, height}, name), 
+    resources(),
+    player(),  
+    running(true)
 {
 }
 
@@ -14,7 +17,7 @@ void Game::run()
 
     sf::Clock clock {}; 
     sf::Time timeSinceLastUpdate {sf::Time::Zero};
-    while(window.isOpen())
+    while(running)
     {
         sf::Event event;
         while (window.pollEvent(event))
@@ -36,23 +39,26 @@ void Game::run()
 
 void Game::initialize()
 {
-
+    resources.loadTexture("Textures/player.png");
+    player = Player(resources.getTexture("Textures/player.png"));
 }
 
 void Game::handleInput(sf::Event event)
 {
     if (event.type == sf::Event::Closed)
-        window.close();
+        running = false;
+
+    player.input(event);
 }
 
 void Game::fixedUpdate()
 {
-
+    player.update();
 }
 
 void Game::render()
 {
     window.clear();
-
+    window.draw(player);
     window.display();
 }
